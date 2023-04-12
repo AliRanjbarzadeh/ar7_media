@@ -1,0 +1,28 @@
+{
+  "name": "ar7/media",
+  "description": "Explore, Upload, Delete and Create new folder in your laravel project",
+  "type": "library",
+  "require": {
+    "intervention/image": "^2.7"
+  },
+  "require-dev": {
+    "laravel/framework": "^10.7"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "AliRanjbarzadeh",
+      "email": "ranjbarzadehali@gmail.com"
+    }
+  ],
+  "keywords": [
+    "image",
+    "media",
+    "media-explorer",
+    "upload",
+    "resize",
+    "laravel-media",
+    "laravel-files"
+  ],
+  "minimum-stability": "stable"
+}
