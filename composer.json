@@ -8,6 +8,18 @@
   "require-dev": {
     "laravel/framework": "^10.7"
   },
+  "autoload": {
+    "psr-4": {
+      "Ar7\\Media\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Ar7\\Media\\MediaServiceProvider"
+      ]
+    }
+  },
   "license": "MIT",
   "authors": [
     {
@@ -23,6 +35,5 @@
     "resize",
     "laravel-media",
     "laravel-files"
-  ],
-  "minimum-stability": "stable"
+  ]
 }
