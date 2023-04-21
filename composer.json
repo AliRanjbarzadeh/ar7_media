@@ -35,5 +35,6 @@
     "resize",
     "laravel-media",
     "laravel-files"
-  ]
+  ],
+  "minimum-stability": "stable"
 }
