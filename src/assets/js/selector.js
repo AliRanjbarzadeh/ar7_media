@@ -36,11 +36,11 @@ const mediaManager = function(refId, id, file) {
     if (config.mime_types['image/*'].split(',').find((x) => x === '.' + file.split('.').pop())) {
         $('#' + refId).html('<img src="' + file + '">');
     } else if (config.mime_types['video/*'].split(',').find((x) => x === '.' + file.split('.').pop())) {
-        $('#' + refId).html('<img src="' + asset + 'atriatech/media/extra/icons/svg/035-file-7.svg' + '">');
+        $('#' + refId).html('<img src="' + asset + 'ar7/media/extra/icons/svg/035-file-7.svg' + '">');
     } else if (config.mime_types['audio/*'].split(',').find((x) => x === '.' + file.split('.').pop())) {
-        $('#' + refId).html('<img src="' + asset + 'atriatech/media/extra/icons/svg/043-music-file.svg' + '">');
+        $('#' + refId).html('<img src="' + asset + 'ar7/media/extra/icons/svg/043-music-file.svg' + '">');
     } else {
-        $('#' + refId).html('<img src="' + asset + 'atriatech/media/extra/icons/svg/050-file.svg' + '">');
+        $('#' + refId).html('<img src="' + asset + 'ar7/media/extra/icons/svg/050-file.svg' + '">');
     }
 
     $('#' + refId).next().val(file);
@@ -75,7 +75,7 @@ $('body').delegate('.open-media-dialog', 'click', function () {
         accept.push(Object.values(config.mime_types).join(','));
     }
 	window.mediaManager = mediaManager;
-	window.open(mediaRoute('atriatech.media.index') + '?ref=media&refId=' + id + '&accept=' + accept.join(','), '', 'height=500,width=1200');
+	window.open(mediaRoute('ar7.media.index') + '?ref=media&refId=' + id + '&accept=' + accept.join(','), '', 'height=500,width=1200');
 });
 
 function loadMediaSelectorWithJS(id, options, noContainer = true) {

@@ -34,7 +34,7 @@ class MediumHelper
 		if (strpos($file->getMimeType(), 'image/') !== FALSE) {
 			$subSizes = config('ar7_media.sub_sizes');
 
-			$newPath = __DIR__ . '/../../../../../public/' . ltrim(trim(config('ar7_media.url_prefix'), '/') . '/' . ltrim(Storage::url($path), '/'), '/');
+			$newPath = public_path(ltrim(trim(config('ar7_media.url_prefix'), '/') . '/' . ltrim(Storage::url($path), '/'), '/'));
 			$sizes = [];
 			$mediaSubSizes = [];
 			foreach ($subSizes as $subSizeKey => $subSize) {

@@ -5,6 +5,7 @@ namespace Ar7\Media;
 use App\Http\Controllers\Controller;
 use Ar7\Media\Facades\Ar7Media;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -24,7 +25,7 @@ class MediumController extends Controller
 		$dirs = [];
 		foreach ($directories as $dir) {
 			$dirs[] = [
-				'mime_type' => Storage::getMimeType($dir),
+				'mime_type' => 'directory',
 				'path' => $dir,
 				'basename' => basename($dir),
 			];
@@ -43,21 +44,21 @@ class MediumController extends Controller
 		}
 		$dirs = $this->getDirectories($path);
 
-		$files = Ar7Media::medium_model()::whereRaw("REPLACE(path, SUBSTRING_INDEX(path, '/', -1), '') = '" . $path . "/'")->limit($limit)->offset($offset)->orderBy('created_at', 'desc')->orderBy('id', 'desc')->get()->map(function ($item) {
-			$item->visibility = $item->visibility;
-			$item->size = $item->size;
-			$item->basename = $item->basename;
-
-			return $item;
-		})->filter(function ($item) use ($accept) {
-			if (!empty($accept)) {
-				if (in_array('.' . pathinfo($item->path, PATHINFO_EXTENSION), explode(',', $accept)) || in_array($item->mime_type, explode(',', $accept))) {
+		$files = Ar7Media::medium_model()::whereRaw("REPLACE(path, SUBSTRING_INDEX(path, '/', -1), '') = '" . $path . "/'")
+			->limit($limit)
+			->offset($offset)
+			->latest()
+			->latest('id')
+			->get()
+			->filter(function ($item) use ($accept) {
+				if (!empty($accept)) {
+					if (in_array('.' . pathinfo($item->path, PATHINFO_EXTENSION), explode(',', $accept)) || in_array($item->mime_type, explode(',', $accept))) {
+						return $item;
+					}
+				} else {
 					return $item;
 				}
-			} else {
-				return $item;
-			}
-		});
+			});
 		$files = array_values($files->toArray());
 
 		$breadcrumb = [];
@@ -67,7 +68,7 @@ class MediumController extends Controller
 		$bbs = [];
 		foreach ($breadcrumb as $index => $b) {
 			if ($b == 'public') {
-				$bbs[] = ['path' => '', 'name' => 'Public'];
+				$bbs[] = ['path' => '', 'name' => __('ar7_media::global.words.public', [], config('ar7_media.locale'))];
 			} else {
 				$bb = $breadcrumb;
 				$bb = array_splice($bb, 1, $index);
@@ -301,6 +302,30 @@ class MediumController extends Controller
 			const asset = '" . asset('/') . "';
 			const config = JSON.parse('" . json_encode($config) . "');
 		");
+		exit();
+	}
+
+	public function ar7_media_lang()
+	{
+		$locale = config('ar7_media.locale');
+		$langs = [
+			'global' => __('ar7_media::global', [], $locale),
+		];
+		header('Content-Type: text/javascript');
+		echo("
+   const currentLocale = '" . $locale . "';
+   const allLangs = " . json_encode(Arr::dot($langs)) . ";
+   const __ = function(name, parameters = null) {
+      let lang = allLangs[name];
+      if (parameters) {
+         for (const param of Object.keys(parameters)) {
+            lang = lang.replace(new RegExp(':'+param, 'g'), parameters[param]);
+         }
+         return lang;
+      } else {
+         return lang;
+      }
+   }");
 		exit();
 	}
 }

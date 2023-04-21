@@ -1,6 +1,6 @@
 <?php
 
-use AR7\Media\MediumController;
+use Ar7\Media\MediumController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix(config('ar7_media.route_prefix'))->middleware((empty(config('ar7_media.middleware'))) ? [] : config('ar7_media.middleware'))->name('ar7.media.')->group(function() {
@@ -16,3 +16,4 @@ Route::prefix(config('ar7_media.route_prefix'))->middleware((empty(config('ar7_m
 // Router
 Route::get('js/ar7_media_router.js', [MediumController::class, 'ar7_media_router'])->name('ar7_media_router');
 Route::get('js/ar7_media_config.js', [MediumController::class, 'ar7_media_config'])->name('ar7_media_config');
+Route::get('js/ar7_media_lang.js', [MediumController::class, 'ar7_media_lang'])->name('ar7_media_lang');

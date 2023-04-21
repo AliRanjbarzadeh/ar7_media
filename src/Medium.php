@@ -9,7 +9,9 @@ class Medium extends Model
 {
 	protected $guarded = [];
 
-	public function getPathAttribute($value)
+	protected $appends = ['visibility', 'size', 'basename'];
+
+	public function getPathAttribute($value): string
 	{
 		$media_url = trim((empty(config('ar7_media.media_url'))) ? url('/') : config('ar7_media.media_url'), '/');
 		$path = url(trim(config('ar7_media.url_prefix'), '/') . Storage::url($value));
@@ -51,17 +53,23 @@ class Medium extends Model
 		return json_decode(json_encode($newOptions));
 	}
 
-	public function getVisibilityAttribute()
+	public function getVisibilityAttribute(): string
 	{
+		if (!Storage::exists($this->attributes['path'])) {
+			return '';
+		}
 		return Storage::getVisibility($this->attributes['path']);
 	}
 
-	public function getSizeAttribute()
+	public function getSizeAttribute(): string
 	{
+		if (!Storage::exists($this->attributes['path'])) {
+			return '0 byte';
+		}
 		return $this->formatSizeUnits(Storage::size($this->attributes['path']));
 	}
 
-	public function getBasenameAttribute()
+	public function getBasenameAttribute(): string
 	{
 		return basename($this->attributes['path']);
 	}
@@ -71,7 +79,7 @@ class Medium extends Model
 		return (!empty($this->options) && !empty($this->options->subSizes) && !empty($this->options->subSizes->$key)) ? $this->options->subSizes->$key : '';
 	}
 
-	private function formatSizeUnits($bytes)
+	private function formatSizeUnits($bytes): string
 	{
 		if ($bytes >= 1073741824) {
 			$bytes = number_format($bytes / 1073741824, 2) . ' GB';

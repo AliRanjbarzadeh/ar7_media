@@ -1,11 +1,32 @@
 const $ = require('jquery');
-import { MDCRipple } from '@material/ripple';
-import { MDCTopAppBar } from '@material/top-app-bar';
-import { MDCList } from "@material/list";
-import { MDCMenu } from '@material/menu';
-import Swal from 'sweetalert2'
-const { DateTime } = require('luxon');
+import {
+	MDCRipple
+} from '@material/ripple';
+import {
+	MDCTopAppBar
+} from '@material/top-app-bar';
+import Swal
+	from 'sweetalert2'
+
+import {
+	JalaliDateTime
+} from 'jalali-date-time';
+
+const {DateTime} = require('luxon');
 const _ = require('lodash');
+
+// Default configuration
+const jalaliConfig = {
+	timezone: 'Asia/Tehran',
+	locale: 'en',
+	fullTextFormat: 'W, D N Y H:I:S',
+	titleFormat: 'W, D N Y',
+	dateFormat: 'Y/M/D',
+	timeFormat: 'H:I:S',
+};
+
+// Load modules
+const jalali = JalaliDateTime(jalaliConfig);
 
 let allItems = [];
 let currentPath = '';
@@ -65,17 +86,17 @@ const singleFile = function (item, random = '') {
 					break;
 				case item.mime_type.search('audio/') !== -1:
 					html += `<div class="mdc-card__media mdc-card__media--square">
-						<img class="type-icon" src="${asset}${_.trim(config.url_prefix, '/')}atriatech/media/extra/icons/svg/043-music-file.svg">
+						<img class="type-icon" src="${asset}${_.trim(config.url_prefix, '/')}ar7/media/extra/icons/svg/043-music-file.svg">
 					</div>`;
 					break;
 				case item.mime_type.search('video/') !== -1:
 					html += `<div class="mdc-card__media mdc-card__media--square">
-						<img class="type-icon" src="${asset}${_.trim(config.url_prefix, '/')}atriatech/media/extra/icons/svg/035-file-7.svg">
+						<img class="type-icon" src="${asset}${_.trim(config.url_prefix, '/')}ar7/media/extra/icons/svg/035-file-7.svg">
 					</div>`;
 					break;
 				default:
 					html += `<div class="mdc-card__media mdc-card__media--square">
-						<img class="type-icon" src="${asset}${_.trim(config.url_prefix, '/')}atriatech/media/extra/icons/svg/050-file.svg">
+						<img class="type-icon" src="${asset}${_.trim(config.url_prefix, '/')}ar7/media/extra/icons/svg/050-file.svg">
 					</div>`;
 					break;
 			}
@@ -100,17 +121,17 @@ const singleFile = function (item, random = '') {
 					break;
 				case item.mime_type.search('audio/') !== -1:
 					html += `<div class="mdc-card__media mdc-card__media--square">
-						<img class="type-icon" src="${asset}${_.trim(config.url_prefix, '/')}atriatech/media/extra/icons/svg/043-music-file.svg">
+						<img class="type-icon" src="${asset}${_.trim(config.url_prefix, '/')}ar7/media/extra/icons/svg/043-music-file.svg">
 					</div>`;
 					break;
 				case item.mime_type.search('video/') !== -1:
 					html += `<div class="mdc-card__media mdc-card__media--square">
-						<img class="type-icon" src="${asset}${_.trim(config.url_prefix, '/')}atriatech/media/extra/icons/svg/035-file-7.svg">
+						<img class="type-icon" src="${asset}${_.trim(config.url_prefix, '/')}ar7/media/extra/icons/svg/035-file-7.svg">
 					</div>`;
 					break;
 				default:
 					html += `<div class="mdc-card__media mdc-card__media--square">
-						<img class="type-icon" src="${asset}${_.trim(config.url_prefix, '/')}atriatech/media/extra/icons/svg/050-file.svg">
+						<img class="type-icon" src="${asset}${_.trim(config.url_prefix, '/')}ar7/media/extra/icons/svg/050-file.svg">
 					</div>`;
 					break;
 			}
@@ -128,7 +149,7 @@ const singleFile = function (item, random = '') {
 		switch (true) {
 			case item.mime_type === 'directory':
 				html += `<div class="mdc-card__media mdc-card__media--square">
-						<img class="type-icon" src="${asset}${_.trim(config.url_prefix, '/')}atriatech/media/extra/icons/svg/100-folder.svg">
+						<img class="type-icon" src="${asset}${_.trim(config.url_prefix, '/')}ar7/media/extra/icons/svg/100-folder.svg">
 					</div>`;
 				break;
 			case item.mime_type.search('image/') !== -1:
@@ -143,17 +164,17 @@ const singleFile = function (item, random = '') {
 				break;
 			case item.mime_type.search('audio/') !== -1:
 				html += `<div class="mdc-card__media mdc-card__media--square">
-						<img class="type-icon" src="${asset}${_.trim(config.url_prefix, '/')}atriatech/media/extra/icons/svg/043-music-file.svg">
+						<img class="type-icon" src="${asset}${_.trim(config.url_prefix, '/')}ar7/media/extra/icons/svg/043-music-file.svg">
 					</div>`;
 				break;
 			case item.mime_type.search('video/') !== -1:
 				html += `<div class="mdc-card__media mdc-card__media--square">
-						<img class="type-icon" src="${asset}${_.trim(config.url_prefix, '/')}atriatech/media/extra/icons/svg/035-file-7.svg">
+						<img class="type-icon" src="${asset}${_.trim(config.url_prefix, '/')}ar7/media/extra/icons/svg/035-file-7.svg">
 					</div>`;
 				break;
 			default:
 				html += `<div class="mdc-card__media mdc-card__media--square">
-						<img class="type-icon" src="${asset}${_.trim(config.url_prefix, '/')}atriatech/media/extra/icons/svg/050-file.svg">
+						<img class="type-icon" src="${asset}${_.trim(config.url_prefix, '/')}ar7/media/extra/icons/svg/050-file.svg">
 					</div>`;
 				break;
 		}
@@ -223,7 +244,7 @@ const getFiles = function (path = null, limit = null, offset = null) {
 	$('.data-loading').removeClass('d-none');
 	$.ajax({
 		method: 'POST',
-		url: mediaRoute('atriatech.media.getFiles'),
+		url: mediaRoute('ar7.media.getFiles'),
 		headers: {
 			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 		},
@@ -265,7 +286,7 @@ const getFiles = function (path = null, limit = null, offset = null) {
 };
 
 const clearSelection = function () {
-	$('.selected-item .mdc-card__media').html(`<div class="no-item-selected">No item selected</div>`);
+	$('.selected-item .mdc-card__media').html(`<div class="no-item-selected">${__('global.sentences.no_item_selected')}</div>`);
 	$('.item-info').addClass('d-none');
 	$('.item-info').find('.mdc-typography').text('');
 };
@@ -287,7 +308,7 @@ const updateItemInfo = function () {
 		const item = getItem(activeItems[0]);
 		switch (true) {
 			case item.mime_type === 'directory':
-				$('.selected-item .mdc-card__media').html(`<img class="type-icon" class="type-icon" src="${asset}${_.trim(config.url_prefix, '/')}atriatech/media/extra/icons/svg/100-folder.svg">`);
+				$('.selected-item .mdc-card__media').html(`<img class="type-icon" class="type-icon" src="${asset}${_.trim(config.url_prefix, '/')}ar7/media/extra/icons/svg/100-folder.svg">`);
 				break;
 			case item.mime_type.search('image/') !== -1:
 				let first_subSize = '';
@@ -298,32 +319,37 @@ const updateItemInfo = function () {
 				$('.selected-item .mdc-card__media').html(`<img src="${(item.options.subSizes !== undefined) ? item.options.subSizes[first_subSize] : item.path}">`);
 				break;
 			case item.mime_type.search('audio/') !== -1:
-				$('.selected-item .mdc-card__media').html(`<img class="type-icon" src="${asset}${_.trim(config.url_prefix, '/')}atriatech/media/extra/icons/svg/043-music-file.svg">`);
+				$('.selected-item .mdc-card__media').html(`<img class="type-icon" src="${asset}${_.trim(config.url_prefix, '/')}ar7/media/extra/icons/svg/043-music-file.svg">`);
 				break;
 			case item.mime_type.search('video/') !== -1:
-				$('.selected-item .mdc-card__media').html(`<img class="type-icon" src="${asset}${_.trim(config.url_prefix, '/')}atriatech/media/extra/icons/svg/035-file-7.svg">`);
+				$('.selected-item .mdc-card__media').html(`<img class="type-icon" src="${asset}${_.trim(config.url_prefix, '/')}ar7/media/extra/icons/svg/035-file-7.svg">`);
 				break;
 			default:
-				$('.selected-item .mdc-card__media').html(`<img class="type-icon" src="${asset}${_.trim(config.url_prefix, '/')}atriatech/media/extra/icons/svg/050-file.svg">`);
+				$('.selected-item .mdc-card__media').html(`<img class="type-icon" src="${asset}${_.trim(config.url_prefix, '/')}ar7/media/extra/icons/svg/050-file.svg">`);
 				break;
 		}
 
 		$('.item-info').removeClass('d-none');
 
 		$('.item-name').text(item.basename);
-		$('.item-type').text(`Type: ${item.mime_type}`);
+		$('.item-type').text(`${__('global.words.type')}: ${item.mime_type}`);
 
 		if (item.mime_type !== 'directory') {
-			$('.item-size').text(`Size: ${item.size}`);
-			$('.item-visibility').text(`Visibility: ${item.visibility}`);
-			$('.item-last-modified').text(`Last modified: ${DateTime.fromISO(item.created_at.replace(' ', 'T'), { zone: 'UTC' }).setZone(DateTime.local().zoneName).toFormat('yyyy-LL-dd HH:mm:ss')}`);
+			$('.item-size').text(`${__('global.words.size')}: ${item.size}`);
+			$('.item-visibility').text(`${__('global.words.visibility')}: ${item.visibility}`);
+
+			if (config.locale === 'fa') {
+				$('.item-last-modified').text(`${__('global.words.updated_at')}: ${jalali.toString(new Date(item.created_at), {format: 'Y/M/D ساعت H:I:S'})}`);
+			} else {
+				$('.item-last-modified').text(`${__('global.words.updated_at')}: ${DateTime.fromISO(item.created_at.replace(' ', 'T'), {zone: 'UTC'}).setZone(DateTime.local().zoneName).toFormat('yyyy/LL/dd \n HH:mm:ss')}`);
+			}
 		} else {
 			$('.item-size').text('');
 			$('.item-visibility').text('');
 			$('.item-last-modified').text('');
 		}
 	} else {
-		$('.selected-item .mdc-card__media').html(`<div class="no-item-selected">Multiple items selected</div>`);
+		$('.selected-item .mdc-card__media').html(`<div class="no-item-selected">${__('global.sentences.multiple_item_selected')}</div>`);
 		$('.item-info').addClass('d-none');
 		$('.item-info').find('.mdc-typography').text('');
 	}
@@ -414,7 +440,7 @@ $('.main-content').click(function (e) {
 
 const listElm = document.querySelector('#main-content');
 
-listElm.addEventListener('scroll', function() {
+listElm.addEventListener('scroll', function () {
 	if (listElm.scrollTop + listElm.clientHeight >= listElm.scrollHeight) {
 		getFiles(currentPath, listLimit, listOffset);
 	}
@@ -467,20 +493,20 @@ const swalMediaInput = Swal.mixin({
 		footer: 'footer-class'
 	},
 	showCancelButton: true,
-	cancelButtonText: 'Cancel',
+	cancelButtonText: __('global.words.cancel'),
 	allowOutsideClick: false,
 	allowEscapeKey: false,
 });
 $('#new_folder').click(function () {
 	swalMediaInput.fire({
-		title: 'New Folder',
+		title: __('global.words.new_folder'),
 		icon: 'info',
-		inputPlaceholder: 'Folder Name',
+		inputPlaceholder: __('global.words.folder_name'),
 		preConfirm: (folderName) => {
 			return new Promise((resolve, error) => {
 				$.ajax({
 					method: 'POST',
-					url: mediaRoute('atriatech.media.newFolder'),
+					url: mediaRoute('ar7.media.newFolder'),
 					data: {
 						_token: $('meta[name="csrf-token"]').attr('content'),
 						folder: folderName,
@@ -489,7 +515,7 @@ $('#new_folder').click(function () {
 					success: function (e) {
 						resolve();
 					},
-					error: function(e) {
+					error: function (e) {
 						error(e);
 					}
 				});
@@ -513,11 +539,11 @@ $('#new_folder').click(function () {
 				}
 			});
 		},
-		confirmButtonText: 'Create',
+		confirmButtonText: __('global.words.create'),
 		inputValidator: (value) => {
 			return new Promise((resolve) => {
 				if (value === undefined || value === null || value === '') {
-					resolve('Enter folder name!');
+					resolve(__('global.errors.enter_folder_name'));
 				} else {
 					resolve();
 				}
@@ -549,7 +575,7 @@ const swalInit = Swal.mixin({
 		cancelButton: 'cancel-button-class',
 		footer: 'footer-class'
 	},
-	confirmButtonText: 'Close',
+	confirmButtonText: __('global.words.close'),
 	allowOutsideClick: false,
 	allowEscapeKey: false,
 });
@@ -577,21 +603,21 @@ const swalMediaConfirm = Swal.mixin({
 		footer: 'footer-class'
 	},
 	showCancelButton: true,
-	confirmButtonText: 'Yes',
-	cancelButtonText: 'No',
+	confirmButtonText: __('global.words.yes'),
+	cancelButtonText: __('global.words.no'),
 	allowOutsideClick: false,
 	allowEscapeKey: false,
 });
 $('#delete').click(function () {
 	swalMediaConfirm.fire({
 		icon: 'error',
-		title: `Delete ${(activeItems.length === 1) ? 'item' : 'items'}`,
-		text: `Are you sure you want to delete ${(activeItems.length === 1) ? 'this item' : 'these items'}?`,
+		title: `${__('global.words.delete')} ${(activeItems.length === 1) ? __('global.words.item') : __('global.words.items')}`,
+		text: `${__('global.sentences.sure_delete_item', {'item': activeItems.length === 1 ? __('global.words.item') : __('global.words.items')})}`,
 		preConfirm: () => {
 			return new Promise((resolve, error) => {
 				$.ajax({
 					method: 'POST',
-					url: mediaRoute('atriatech.media.deleteItem'),
+					url: mediaRoute('ar7.media.deleteItem'),
 					data: {
 						_token: $('meta[name="csrf-token"]').attr('content'),
 						items: activeItems,
@@ -599,7 +625,7 @@ $('#delete').click(function () {
 					success: function (e) {
 						resolve();
 					},
-					error: function(e) {
+					error: function (e) {
 						error(e);
 					}
 				});
@@ -629,15 +655,15 @@ $('#delete').click(function () {
 $('#rename').click(function () {
 	const newName = activeItems[0].substring(activeItems[0].lastIndexOf('/') + 1);
 	swalMediaInput.fire({
-		title: 'Rename',
+		title: __('global.words.rename'),
 		icon: 'info',
-		inputPlaceholder: 'Name',
+		inputPlaceholder: __('global.words.name'),
 		inputValue: (newName.lastIndexOf('.') !== -1) ? newName.replace(newName.substring(newName.lastIndexOf('.')), '') : newName,
 		preConfirm: (newName) => {
 			return new Promise((resolve, error) => {
 				$.ajax({
 					method: 'POST',
-					url: mediaRoute('atriatech.media.renameItem'),
+					url: mediaRoute('ar7.media.renameItem'),
 					data: {
 						_token: $('meta[name="csrf-token"]').attr('content'),
 						item: activeItems[0],
@@ -646,7 +672,7 @@ $('#rename').click(function () {
 					success: function (e) {
 						resolve();
 					},
-					error: function(e) {
+					error: function (e) {
 						error(e);
 					}
 				});
@@ -670,11 +696,11 @@ $('#rename').click(function () {
 				}
 			});
 		},
-		confirmButtonText: 'Rename',
+		confirmButtonText: __('global.words.rename'),
 		inputValidator: (value) => {
 			return new Promise((resolve) => {
 				if (value === undefined || value === null || value === '') {
-					resolve('Enter new name!');
+					resolve(__('global.sentences.enter_new_name'));
 				} else {
 					resolve();
 				}
@@ -687,7 +713,7 @@ function readURL(input, random) {
 	if (input) {
 		const reader = new FileReader();
 
-		reader.onload = function(e) {
+		reader.onload = function (e) {
 			const item = {
 				basename: input.name,
 				image: e.target.result,
@@ -712,7 +738,7 @@ function readURL(input, random) {
 	}
 }
 
-const ajax_request = function(item, random) {
+const ajax_request = function (item, random) {
 	const formData = new FormData();
 	formData.append('file', item);
 	formData.append('path', $('input[name="path"]').val());
@@ -720,7 +746,7 @@ const ajax_request = function(item, random) {
 
 	let xhr = null;
 	$.ajax({
-		url: mediaRoute('atriatech.media.uploadFile'),
+		url: mediaRoute('ar7.media.uploadFile'),
 		type: "POST",
 		data: formData,
 		contentType: false,
@@ -741,7 +767,7 @@ const ajax_request = function(item, random) {
 				} else {
 					allItems.splice(eq, 0, data);
 				}
-				console.log(allItems);
+				// console.log(allItems);
 			}
 		},
 		error: function (e) {
@@ -752,10 +778,10 @@ const ajax_request = function(item, random) {
 				} else if (e.responseJSON.message) {
 					errorMsg = e.responseJSON.message;
 				} else {
-					errorMsg = 'Something went wrong!';
+					errorMsg = __('global.errors.unknown');
 				}
 			} else {
-				errorMsg = 'Something went wrong!';
+				errorMsg = __('global.errors.unknown');
 			}
 
 			$('[data-token="' + random + '"]').replaceWith(singleFile({
@@ -779,18 +805,18 @@ const ajax_request = function(item, random) {
 	});
 };
 
-const makeid = function(length) {
-	let result           = '';
-	const characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+const makeid = function (length) {
+	let result = '';
+	const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 	const charactersLength = characters.length;
-	for ( let i = 0; i < length; i++ ) {
+	for (let i = 0; i < length; i++) {
 		result += characters.charAt(Math.floor(Math.random() * charactersLength));
 	}
 	return result;
 };
 
 $('#fileInput').change(function () {
-	$.map(this.files, function(item, i) {
+	$.map(this.files, function (item, i) {
 		const random = makeid(20);
 		readURL(item, random);
 		ajax_request(item, random);

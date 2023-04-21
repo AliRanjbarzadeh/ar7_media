@@ -69,4 +69,10 @@ return [
 	 * medium model
 	 */
 	'medium_model' => \Ar7\Media\Medium::class,
+
+	/**
+	 * default locale
+	 * available locales: en, fa
+	 */
+	'locale' => 'fa'
 ];

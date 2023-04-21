@@ -1,0 +1,46 @@
+@font-face {
+  font-family: iranyekan;
+  font-style: normal;
+  font-weight: bold;
+  src: url('../extra/fonts/eot/iranyekanwebbold(fanum).eot');
+  src: url('../extra/fonts/eot/iranyekanwebbold(fanum).eot?#iefix') format('embedded-opentype'), /* IE6-8 */
+  url('../extra/fonts/woff2/iranyekanwebbold(fanum).woff2') format('woff2'), /* FF39+,Chrome36+, Opera24+*/
+  url('../extra/fonts/woff/iranyekanwebbold(fanum).woff') format('woff'), /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+  url('../extra/fonts/ttf/iranyekanwebbold(fanum).ttf') format('truetype');
+}
+
+@font-face {
+  font-family: iranyekan;
+  font-style: normal;
+  font-weight: 300;
+  src: url('../extra/fonts/eot/iranyekanweblight(fanum).eot');
+  src: url('../extra/fonts/eot/iranyekanweblight(fanum).eot?#iefix') format('embedded-opentype'), /* IE6-8 */
+  url('../extra/fonts/woff2/iranyekanweblight(fanum).woff2') format('woff2'), /* FF39+,Chrome36+, Opera24+*/
+  url('../extra/fonts/woff/iranyekanweblight(fanum).woff') format('woff'), /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+  url('../extra/fonts/ttf/iranyekanweblight(fanum).ttf') format('truetype');
+}
+
+@font-face {
+  font-family: iranyekan;
+  font-style: normal;
+  font-weight: normal;
+  src: url('../extra/fonts/eot/iranyekanwebregular(fanum).eot');
+  src: url('../extra/fonts/eot/iranyekanwebregular(fanum).eot?#iefix') format('embedded-opentype'), /* IE6-8 */
+  url('../extra/fonts/woff2/iranyekanwebregular(fanum).woff2') format('woff2'), /* FF39+,Chrome36+, Opera24+*/
+  url('../extra/fonts/woff/iranyekanwebregular(fanum).woff') format('woff'), /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+  url('../extra/fonts/ttf/iranyekanwebregular(fanum).ttf') format('truetype');
+}
+
+body {
+  font-family: iranyekan, sans-serif, roboto, Arial !important;
+  direction: rtl;
+}
+
+.mdc-button--raised .mdc-button__icon, .mdc-button--unelevated .mdc-button__icon, .mdc-button--outlined .mdc-button__icon {
+  margin-right: -4px !important;
+  margin-left: 8px !important;
+}
+
+h1, h2, h3, h4, h5, h6, input, textarea, .mdc-button--raised {
+  font-family: iranyekan, sans-serif, roboto, Arial !important;
+}
