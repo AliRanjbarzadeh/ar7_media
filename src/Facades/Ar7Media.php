@@ -2,20 +2,12 @@
 
 namespace Ar7\Media\Facades;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @method upload(): array {
-		id: int,
-		path: string,
-		mime_type: string,
-		options: array,
-		visibility: string,
-		size: int,
-		basename: string,
-		created_at: string,
-		updated_at: string
- * }
+ * @method array upload($file, $path)
+ * @method Model medium_model()
  */
 class Ar7Media extends Facade
 {
