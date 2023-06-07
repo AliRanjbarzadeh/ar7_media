@@ -8,6 +8,21 @@ use Intervention\Image\Facades\Image;
 
 class MediumHelper
 {
+	/**
+	 * @param $file
+	 * @param $path
+	 * @return array{
+		id: int,
+		path: string,
+		mime_type: string,
+		options: array,
+		visibility: string,
+		size: int,
+		basename: string,
+		created_at: string,
+		updated_at: string
+	 * }
+	 */
 	public static function upload($file, $path = '')
 	{
 		$path = trim($path, '/');
