@@ -13,15 +13,15 @@ class MediumController extends Controller
 {
 	public function index()
 	{
-		if (!Storage::exists('public' . '/' . config('ar7_media.upload_folder'))) {
-			Storage::makeDirectory('public' . '/' . config('ar7_media.upload_folder'));
+		if (!Storage::disk(config('ar7_media.disk'))->exists('public' . '/' . config('ar7_media.upload_folder'))) {
+			Storage::disk(config('ar7_media.disk'))->makeDirectory('public' . '/' . config('ar7_media.upload_folder'));
 		}
 		return view('ar7_media::index');
 	}
 
 	private function getDirectories($path)
 	{
-		$directories = Storage::directories($path);
+		$directories = Storage::disk(config('ar7_media.disk'))->directories($path);
 		$dirs = [];
 		foreach ($directories as $dir) {
 			$dirs[] = [
@@ -108,11 +108,11 @@ class MediumController extends Controller
 		$folder = $request->input('folder');
 		$currentDir = $request->input('currentDir');
 
-		if (Storage::exists($currentDir . '/' . $folder)) {
+		if (Storage::disk(config('ar7_media.disk'))->exists($currentDir . '/' . $folder)) {
 			return response(['err' => 'This folder already exists!'], 400);
 		}
 
-		Storage::makeDirectory($currentDir . '/' . $folder);
+		Storage::disk(config('ar7_media.disk'))->makeDirectory($currentDir . '/' . $folder);
 
 		return response([], 200);
 	}
@@ -121,7 +121,7 @@ class MediumController extends Controller
 	{
 		$item_path = [];
 		foreach ($request->input('items') as $item) {
-			if (Storage::exists($item)) {
+			if (Storage::disk(config('ar7_media.disk'))->exists($item)) {
 				$this->rrmdir(((!empty(config('ar7_media.url_prefix'))) ? trim(config('ar7_media.url_prefix'), '/') . '/' : '') . ltrim(Storage::url($item), '/'));
 			} else {
 				$media = Ar7Media::medium_model()::path([['path' => $item]])->first();
@@ -143,7 +143,7 @@ class MediumController extends Controller
 				}
 			}
 		}
-		Storage::delete($item_path);
+		Storage::disk(config('ar7_media.disk'))->delete($item_path);
 
 		return response([], 200);
 	}
@@ -153,7 +153,7 @@ class MediumController extends Controller
 		$item = $request->input('item');
 		$newName = $request->input('newName');
 
-		if (Storage::exists($item)) {
+		if (Storage::disk(config('ar7_media.disk'))->exists($item)) {
 			$media = Ar7Media::medium_model()::whereRaw("REPLACE(path, SUBSTRING_INDEX(path, '/', -1), '') = '" . $item . "/'")->get();
 			$newPath = substr($item, 0, strpos($item, strrchr(rtrim($item, '/'), '/'))) . "/" . $newName;
 			foreach ($media as $medium) {
@@ -174,7 +174,7 @@ class MediumController extends Controller
 					]);
 				}
 			}
-			Storage::move($item, $newPath);
+			Storage::disk(config('ar7_media.disk'))->move($item, $newPath);
 		} else {
 			$medium = Ar7Media::medium_model()::path([$item])->first();
 
@@ -192,7 +192,7 @@ class MediumController extends Controller
 					$newPath = str_replace(pathinfo($item, PATHINFO_FILENAME), $newName, $subSize);
 					$subSizes[$index] = $newPath;
 
-					Storage::move($subSize, $newPath);
+					Storage::disk(config('ar7_media.disk'))->move($subSize, $newPath);
 				}
 				$options->subSizes = (object)$subSizes;
 				$medium->update([
@@ -200,7 +200,7 @@ class MediumController extends Controller
 				]);
 			}
 
-			Storage::move($oldPath, $attributes['path']);
+			Storage::disk(config('ar7_media.disk'))->move($oldPath, $attributes['path']);
 		}
 	}
 

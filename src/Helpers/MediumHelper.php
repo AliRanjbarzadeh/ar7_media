@@ -3,24 +3,26 @@
 namespace Ar7\Media\Helpers;
 
 use Ar7\Media\Medium;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
 class MediumHelper
 {
 	/**
-	 * @param $file
-	 * @param $path
+	 * @param array|UploadedFile|UploadedFile[]|null $file
+	 * @param string $path
+	 *
 	 * @return array{
-		id: int,
-		path: string,
-		mime_type: string,
-		options: array,
-		visibility: string,
-		size: int,
-		basename: string,
-		created_at: string,
-		updated_at: string
+	 * id: int,
+	 * path: string,
+	 * mime_type: string,
+	 * options: array,
+	 * visibility: string,
+	 * size: int,
+	 * basename: string,
+	 * created_at: string,
+	 * updated_at: string
 	 * }
 	 */
 	public static function upload($file, $path = '')
@@ -36,11 +38,13 @@ class MediumHelper
 
 		$counter = 2;
 		$fileName = $file->getClientOriginalName();
-		while (Storage::exists($path . $fileName)) {
+		while (Storage::disk(config('ar7_media.disk'))->exists($path . $fileName)) {
 			$fileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . ' (' . $counter . ').' . pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
 			$counter++;
 		}
-		$file->storeAs($path, $fileName);
+//		Storage::disk(config('ar7_media.disk'))->put($path . $fileName, file_get_contents($file));
+//		request()->file('file')->storeAs($path, $fileName, 'local');
+		$file->storeAs($path, $fileName, config('ar7_media.disk'));
 		$media = self::medium_model()::create([
 			'path' => $path . $fileName,
 			'mime_type' => $file->getMimeType(),
@@ -49,7 +53,7 @@ class MediumHelper
 		if (strpos($file->getMimeType(), 'image/') !== FALSE) {
 			$subSizes = config('ar7_media.sub_sizes');
 
-			$newPath = public_path(ltrim(trim(config('ar7_media.url_prefix'), '/') . '/' . ltrim(Storage::url($path), '/'), '/'));
+			$newPath = Storage::disk(config('ar7_media.disk'))->path($path);
 			$sizes = [];
 			$mediaSubSizes = [];
 			foreach ($subSizes as $subSizeKey => $subSize) {

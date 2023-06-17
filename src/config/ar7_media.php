@@ -42,7 +42,15 @@ return [
 		'other' => '.pdf,.zip',
 	],
 
+	/**
+	 * set upload folder
+	 */
 	'upload_folder' => 'media',
+
+	/**
+	 * set disk
+	 */
+	'disk' => 'local',
 
 	/**
 	 * if you decided to remove the public path from url you should add the public path to this config.
@@ -74,5 +82,5 @@ return [
 	 * default locale
 	 * available locales: en, fa
 	 */
-	'locale' => 'fa'
+	'locale' => 'fa',
 ];
